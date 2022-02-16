@@ -2,7 +2,7 @@ const ageHandler = async request => {
 
     const { searchParams } = new URL(request.url)
 
-    const day = searchParams.has("day") || null;
+    const day = searchParams.get("day") || null;
 
     if (day != null) {
 
@@ -12,7 +12,7 @@ const ageHandler = async request => {
         let currentAge = currentDate.getFullYear() -  birthDay.getFullYear()
         let month = currentDate.getMonth() -  birthDay.getMonth()
 
-        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+        if (month < 0 || (month === 0 && currentDate.getDate() < birthDate.getDate())) {
             currentAge--
         }
 

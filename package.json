@@ -1,0 +1,8 @@
+{
+    "private": true,
+    "name": "oryx",
+    "version": "1.0.0",
+    "description": "Oryx is an API for StreamElements Bot for server-side commands (like Subrecord and Age)",
+    "license": "MIT"
+  }
+  
