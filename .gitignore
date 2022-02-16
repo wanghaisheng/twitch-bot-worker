@@ -1,0 +1,6 @@
+dist
+node_modules
+worker
+
+# exclude wrangler.toml
+wrangler.toml

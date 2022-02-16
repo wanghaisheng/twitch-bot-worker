@@ -7,5 +7,5 @@ zone_id = ""
 webpack_config = "webpack.config.js"
 compatibility_date = "2022-02-15"
 kv_namespaces = [ 
-    { binding = "KV", id = "" }
+    { binding = "KV2", id = "" }
 ]
