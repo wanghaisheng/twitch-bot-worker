@@ -2,17 +2,17 @@ const ageHandler = async request => {
 
     const { searchParams } = new URL(request.url)
 
-    const day = searchParams.get("day") || null;
+    const birthDay = searchParams.get("birthday") || null;
 
-    if (day != null) {
+    if (birthDay != null) {
 
-        const birthDay = new Date(day)
+        const birthDayDate = new Date(birthDay)
         const currentDate = new Date()
 
-        let currentAge = currentDate.getFullYear() -  birthDay.getFullYear()
-        let month = currentDate.getMonth() -  birthDay.getMonth()
+        let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
+        let month = currentDate.getMonth() -  birthDayDate.getMonth()
 
-        if (month < 0 || (month === 0 && currentDate.getDate() < birthDate.getDate())) {
+        if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
             currentAge--
         }
 
@@ -25,7 +25,7 @@ const ageHandler = async request => {
         })
     }
 
-    return new Response('404 Not Found', {
+    return new Response('Invalid API query', {
         status: 404,
         statusText: 'Not Found',
         headers: {

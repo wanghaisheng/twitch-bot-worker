@@ -86,7 +86,7 @@ class Router {
 			return route.handler(req)
 		}
 
-		return new Response('404 Not Found', {
+		return new Response('Invalid API query', {
 			status: 404,
 			statusText: 'Not Found',
 			headers: {
