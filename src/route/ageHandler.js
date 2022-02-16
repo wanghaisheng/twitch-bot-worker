@@ -1,21 +1,36 @@
-const ageHandler = async () => {
+const ageHandler = async request => {
 
-    const birthDay = new Date(BIRTHDAY)
-    const currentDate = new Date()
+    const { searchParams } = new URL(request.url)
 
-    let currentAge = currentDate.getFullYear() -  birthDay.getFullYear()
-    let month = currentDate.getMonth() -  birthDay.getMonth()
+    const day = searchParams.has("day") || null;
 
-    if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
-        currentAge--
+    if (day != null) {
+
+        const birthDay = new Date(day)
+        const currentDate = new Date()
+
+        let currentAge = currentDate.getFullYear() -  birthDay.getFullYear()
+        let month = currentDate.getMonth() -  birthDay.getMonth()
+
+        if (month < 0 || (month === 0 && today.getDate() < birthDate.getDate())) {
+            currentAge--
+        }
+
+        return new Response(currentAge, { 
+            status: 200,
+            statusText: 'OK',
+            headers: {
+                'content-type': 'text/plain'
+            }
+        })
     }
 
-    return new Response(currentAge, { 
-        status: 200,
-        statusText: 'OK',
+    return new Response('404 Not Found', {
+        status: 404,
+        statusText: 'Not Found',
         headers: {
-            'content-type': 'text/plain'
-        }
+            'content-type': 'text/plain',
+        },
     })
 }
 

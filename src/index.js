@@ -15,7 +15,7 @@ async function handleRequest(request) {
 
   if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
 
-    router.get('/age', () => ageHandler())
+    router.get('/age', () => ageHandler(request))
     router.get('/subrecord', () => subRecordHandler(request))
   }
 
