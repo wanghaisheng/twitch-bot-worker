@@ -24,10 +24,11 @@ const subRecordHandler = async req => {
 
             if (parseInt(count) > parseInt(subRecord)) {
 
-                const now = new Date();
+                const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
+                const currentDate = new Date(tzDate)
 
                 subRecord = parseInt(count)
-                subRecordDate = now.toISOString().split('T')[0]
+                subRecordDate = currentDate.toISOString().split('T')[0]
                 
                 await setCache(channel, JSON.stringify({ 
                     count: parseInt(subRecord), date: subRecordDate
