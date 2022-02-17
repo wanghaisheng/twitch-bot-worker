@@ -6,8 +6,10 @@ const ageHandler = async request => {
 
     if (birthDay != null) {
 
+        const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
+        const currentDate = new Date(tzDate)
+
         const birthDayDate = new Date(birthDay)
-        const currentDate = new Date()
 
         let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
         let month = currentDate.getMonth() -  birthDayDate.getMonth()

@@ -1,7 +1,7 @@
 import Router from './lib/router'
 
-import ageHandler from './route/ageHandler'
-import subRecordHandler from './route/subRecordHandler'
+import ageHandler from './lib/ageHandler'
+import subRecordHandler from './lib/subRecordHandler'
 
 const STREAMELEMENTS_USER_AGENT = "StreamElements Bot"
 
