@@ -1,9 +1,9 @@
 const setCache = (key, data) => KV.put(key, data)
 const getCache = key => KV.get(key)
 
-const subRecordHandler = async request => {
+const subRecordHandler = async req => {
 
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = new URL(req.url)
 
     const channel = searchParams.get("channel").toUpperCase() || null
     const count = searchParams.get("count") || 0

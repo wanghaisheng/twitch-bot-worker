@@ -1,6 +1,6 @@
-const ageHandler = async request => {
+const ageHandler = async req => {
 
-    const { searchParams } = new URL(request.url)
+    const { searchParams } = new URL(req.url)
 
     const birthDay = searchParams.get("birthday") || null;
 
