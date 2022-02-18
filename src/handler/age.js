@@ -22,34 +22,38 @@
  * SOFTWARE.
  */
 
-import notFound from './lib/notFound'
-import Router from './lib/router'
+import notFound from '../lib/notFound'
 
-import age from './handler/age'
-import fivem from './handler/fivem'
-import subRecord from './handler/subRecord'
+const age = async req => {
 
-const STREAMELEMENTS_USER_AGENT = "StreamElements Bot"
+    const { searchParams } = new URL(req.url)
 
-addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
-})
+    const birthDay = searchParams.get("birthday") || null;
 
-async function handleRequest(request) {
+    if (birthDay != null) {
 
-  const router = new Router()
+        const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
+        const currentDate = new Date(tzDate)
 
-  if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
+        const birthDayDate = new Date(birthDay)
 
-    router.get('/age', () => age(request))             // Needs to be removed
-    router.get('/subrecord', () => subRecord(request)) // Needs to be removed
+        let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
+        let month = currentDate.getMonth() -  birthDayDate.getMonth()
 
-    router.get('/v1/age', () => age(request))
-    router.get('/v1/subrecord', () => subRecord(request))
-    router.get('/v1/fivem/.+', () => fivem(request))
+        if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
+            currentAge--
+        }
 
-    router.all(() => notFound())
-  }
+        return new Response(currentAge, { 
+            status: 200,
+            statusText: 'OK',
+            headers: {
+                'content-type': 'text/plain'
+            }
+        })
+    }
 
-  return await router.route(request)
+    return await notFound()
 }
+
+export default age
