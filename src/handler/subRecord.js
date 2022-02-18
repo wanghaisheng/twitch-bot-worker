@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import notFound from '../handler/notFound'
+import notFound from '../lib/notFound'
 
 const setCache = (key, data) => KV.put(key, data)
 const getCache = key => KV.get(key)

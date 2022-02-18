@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import notFound from '../handler/notFound'
+import notFound from '../lib/notFound'
 
 const age = async req => {
 

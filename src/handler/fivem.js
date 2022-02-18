@@ -22,17 +22,17 @@
  * SOFTWARE.
  */
 
-import notFound from '../handler/notFound'
+import notFound from '../lib/notFound'
 
 const fivem = async req => {
 
     const { pathname } = new URL(req.url)
     const serverId = pathname.substring(9)
 
-    if (birthDay != null) {
+    if (serverId != null) {
 
 
-        return new Response(currentAge, { 
+        return new Response(serverId, { 
             status: 200,
             statusText: 'OK',
             headers: {
