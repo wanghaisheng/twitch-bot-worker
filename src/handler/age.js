@@ -26,34 +26,34 @@ import notFound from '../lib/notFound'
 
 const age = async req => {
 
-    const { searchParams } = new URL(req.url)
+  const { searchParams } = new URL(req.url)
 
-    const birthDay = searchParams.get("birthday") || null;
+  const birthDay = searchParams.get("birthday") || null;
 
-    if (birthDay != null) {
+  if (birthDay != null) {
 
-        const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
-        const currentDate = new Date(tzDate)
+    const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
+    const currentDate = new Date(tzDate)
 
-        const birthDayDate = new Date(birthDay)
+    const birthDayDate = new Date(birthDay)
 
-        let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
-        let month = currentDate.getMonth() -  birthDayDate.getMonth()
+    let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
+    let month = currentDate.getMonth() -  birthDayDate.getMonth()
 
-        if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
-            currentAge--
-        }
-
-        return new Response(currentAge, { 
-            status: 200,
-            statusText: 'OK',
-            headers: {
-                'content-type': 'text/plain'
-            }
-        })
+    if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
+      currentAge--
     }
 
-    return await notFound()
+    return new Response(currentAge, { 
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        'content-type': 'text/plain'
+      }
+    })
+  }
+
+  return await notFound()
 }
 
 export default age

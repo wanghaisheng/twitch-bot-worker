@@ -29,61 +29,61 @@ const getCache = key => KV.get(key)
 
 const subRecord = async req => {
 
-    const { searchParams } = new URL(req.url)
+  const { searchParams } = new URL(req.url)
 
-    const count = searchParams.get("count") || 0
-    const lang = searchParams.get("lang")
-    const silent = searchParams.has("silent")
+  const count = searchParams.get("count") || 0
+  const lang = searchParams.get("lang")
+  const silent = searchParams.has("silent")
 
-    let channel = searchParams.get("channel") || null
+  let channel = searchParams.get("channel") || null
 
-    if (channel != null) {
+  if (channel != null) {
 
-        channel = channel.toUpperCase()
+    channel = channel.toUpperCase()
 
-        let channelData = await getCache(channel) || "{\"count\":0,\"date\":\"1970-01-01\"}";
-        let channelDataObj = JSON.parse(channelData)
+    let channelData = await getCache(channel) || "{\"count\":0,\"date\":\"1970-01-01\"}";
+    let channelDataObj = JSON.parse(channelData)
 
-        if (channelData != false) {
+    if (channelData != false) {
 
-            let subRecord = channelDataObj.count
-            let subRecordDate = channelDataObj.date
+      let subRecord = channelDataObj.count
+      let subRecordDate = channelDataObj.date
 
-            if (parseInt(count) > parseInt(subRecord)) {
+      if (parseInt(count) > parseInt(subRecord)) {
 
-                const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
-                const currentDate = new Date(tzDate)
+        const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
+        const currentDate = new Date(tzDate)
 
-                subRecord = parseInt(count)
-                subRecordDate = currentDate.toISOString().split('T')[0]
-                
-                await setCache(channel, JSON.stringify({ 
-                    count: parseInt(subRecord), date: subRecordDate
-                }))
-            }
+        subRecord = parseInt(count)
+        subRecordDate = currentDate.toISOString().split('T')[0]
+        
+        await setCache(channel, JSON.stringify({ 
+          count: parseInt(subRecord), date: subRecordDate
+        }))
+      }
 
-            let responseString = ""
+      let responseString = ""
 
-            if (silent != true) {
+      if (silent != true) {
 
-                responseString = "On " + subRecordDate + " we hit " + subRecord + " subs!"
+        responseString = "On " + subRecordDate + " we hit " + subRecord + " subs!"
 
-                if (lang === "da") {
-                    responseString = "Den " + subRecordDate + " ramte vi " + subRecord + " subs!"
-                }
-            }
-
-            return new Response(responseString, { 
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'content-type': 'text/plain'
-                }
-            })
+        if (lang === "da") {
+          responseString = "Den " + subRecordDate + " ramte vi " + subRecord + " subs!"
         }
-    }
+      }
 
-    return await notFound()
+      return new Response(responseString, { 
+        status: 200,
+        statusText: 'OK',
+        headers: {
+            'content-type': 'text/plain'
+        }
+      })
+    }
+  }
+
+  return await notFound()
 }
 
 export default subRecord

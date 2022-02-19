@@ -46,7 +46,7 @@ async function handleRequest(request) {
 
     router.get('/v1/age', () => age(request))
     router.get('/v1/subrecord', () => subRecord(request))
-    router.get('/v1/fivem/.+', () => fivem(request))
+    router.get('/v1/fivem/.+', () => fivem(request, STREAMELEMENTS_USER_AGENT))
 
     router.all(() => notFound())
   }

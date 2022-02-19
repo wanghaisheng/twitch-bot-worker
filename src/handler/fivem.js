@@ -24,24 +24,37 @@
 
 import notFound from '../lib/notFound'
 
-const fivem = async req => {
+const fivem = async (req, userAgent) => {
 
-    const { pathname } = new URL(req.url)
-    const serverId = pathname.substring(9)
+  const { pathname } = new URL(req.url)
+  const endPoint = pathname.substring(9)
 
-    if (serverId != null) {
+  if (endPoint != "") {
 
+    const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + endPoint, {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+        'user-agent': userAgent
+      }
+    })
 
-        return new Response(serverId, { 
-            status: 200,
-            statusText: 'OK',
-            headers: {
-                'content-type': 'text/plain'
-            }
-        })
+    const respData = await resp.json()
+
+    let responseText = ""
+    if (resp.status === 200) {
+      responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
     }
 
-    return await notFound()
+    return new Response(responseText, { 
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        'content-type': 'text/plain'
+      }
+    })
+  }
+
+  await notFound()
 }
 
 export default fivem
