@@ -41,12 +41,9 @@ async function handleRequest(request) {
 
   if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
 
-    router.get('/age', () => age(request))             // Needs to be removed
-    router.get('/subrecord', () => subRecord(request)) // Needs to be removed
-
     router.get('/v1/age', () => age(request))
     router.get('/v1/subrecord', () => subRecord(request))
-    router.get('/v1/fivem/.+', () => fivem(request))
+    router.get('/v1/fivem/.+', () => fivem(request, STREAMELEMENTS_USER_AGENT))
 
     router.all(() => notFound())
   }
