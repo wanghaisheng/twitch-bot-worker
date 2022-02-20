@@ -43,7 +43,10 @@ async function handleRequest(request) {
 
     router.get('/v1/age', () => age(request))
     router.get('/v1/subrecord', () => subRecord(request))
-    router.get('/v1/fivem/.+', () => fivem(request, STREAMELEMENTS_USER_AGENT))
+    
+    if (FIVEM_ENDPOINT != "") {
+      router.get('/v1/fivem', () => fivem(FIVEM_ENDPOINT, STREAMELEMENTS_USER_AGENT))
+    }
 
     router.all(() => notFound())
   }
