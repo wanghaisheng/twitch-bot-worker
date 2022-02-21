@@ -31,6 +31,11 @@ addEventListener('fetch', event => {
   event.respondWith(handleRequest(event.request))
 })
 
+/**
+ * The default handler funtion
+ * @param request the event.request object
+ * @returns {Response} returns the 
+ */
 async function handleRequest(request) {
 
   const router = new Router()
