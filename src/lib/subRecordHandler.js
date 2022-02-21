@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
-import notFound from '../lib/notFound'
+import notFound from './notFound'
 
 const setCache = (key, data) => KV.put(key, data)
 const getCache = key => KV.get(key)
 
-const subRecord = async req => {
+const subRecordHandler = async req => {
 
   const { searchParams } = new URL(req.url)
 
@@ -86,4 +86,4 @@ const subRecord = async req => {
   return await notFound()
 }
 
-export default subRecord
+export default subRecordHandler

@@ -22,29 +22,30 @@
  * SOFTWARE.
  */
 
-import notFound from '../lib/notFound'
+import notFound from './notFound'
 
-const age = async req => {
+const fivemHandler = async (req, userAgent) => {
 
-  const { searchParams } = new URL(req.url)
+  const { pathname } = new URL(req.url)
+  const endPoint = pathname.substring(9)
 
-  const birthDay = searchParams.get("birthday") || null;
+  if (endPoint != "") {
+    
+    const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + endPoint, {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+        'user-agent': userAgent
+      }
+    })
 
-  if (birthDay != null) {
+    let responseText = "[No Data]"
 
-    const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
-    const currentDate = new Date(tzDate)
-
-    const birthDayDate = new Date(birthDay)
-
-    let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
-    let month = currentDate.getMonth() -  birthDayDate.getMonth()
-
-    if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
-      currentAge--
+    if (resp.status === 200) {
+      const respData = await resp.json()
+      responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
     }
 
-    return new Response(currentAge, { 
+    return new Response(responseText, { 
       status: 200,
       statusText: 'OK',
       headers: {
@@ -53,7 +54,7 @@ const age = async req => {
     })
   }
 
-  return await notFound()
+  await notFound()
 }
 
-export default age
+export default fivemHandler

@@ -25,9 +25,9 @@
 import notFound from './lib/notFound'
 import Router from './lib/router'
 
-import age from './handler/age'
-import fivem from './handler/fivem'
-import subRecord from './handler/subRecord'
+import ageHandler from './lib/ageHandler'
+import fivemHandler from './lib/fivemHandler'
+import subRecordHandler from './lib/subRecordHandler'
 
 const STREAMELEMENTS_USER_AGENT = "StreamElements Bot"
 
@@ -41,12 +41,9 @@ async function handleRequest(request) {
 
   if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
 
-    router.get('/v1/age', () => age(request))
-    router.get('/v1/subrecord', () => subRecord(request))
-    
-    if (FIVEM_ENDPOINT != "") {
-      router.get('/v1/fivem', () => fivem(FIVEM_ENDPOINT, STREAMELEMENTS_USER_AGENT))
-    }
+    router.get('/v1/age', () => ageHandler(request))
+    router.get('/v1/fivem/.+', () => fivemHandler(request, STREAMELEMENTS_USER_AGENT))
+    router.get('/v1/subrecord', () => subRecordHandler(request))
 
     router.all(() => notFound())
   }
