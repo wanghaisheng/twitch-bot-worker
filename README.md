@@ -1,6 +1,7 @@
-# oryx
+# streamersbot
 
-Oryx is an API for StreamElements Bot for server-side commands (like Subrecord and Age)
+StreamersBot is an WebAPI for StreamElements Bot deployed on Cloudflare Workers and Workers KV.
+It implements multiple routes (like age, fivem and )
 
 ## License
 
