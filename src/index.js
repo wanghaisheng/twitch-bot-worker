@@ -33,8 +33,8 @@ addEventListener('fetch', event => {
 
 /**
  * The default handler funtion
- * @param request the event.request object
- * @returns {Response} returns the 
+ * @param {Object} req The Request object from the mainHandler
+ * @returns {Response} HTTP Response using the routes defined
  */
 async function mainHandler(request) {
 
