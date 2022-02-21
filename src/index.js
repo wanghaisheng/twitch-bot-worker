@@ -28,7 +28,7 @@ import { age, fivem, notFound, subRecord } from './lib/handlers'
 const STREAMELEMENTS_USER_AGENT = "StreamElements Bot"
 
 addEventListener('fetch', event => {
-  event.respondWith(handleRequest(event.request))
+  event.respondWith(mainHandler(event.request))
 })
 
 /**
@@ -36,7 +36,7 @@ addEventListener('fetch', event => {
  * @param request the event.request object
  * @returns {Response} returns the 
  */
-async function handleRequest(request) {
+async function mainHandler(request) {
 
   const router = new Router()
 

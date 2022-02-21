@@ -24,17 +24,18 @@
 
 /**
  * Helper functions to get and set data in Workers KV
- * @param key The KV Key name
- * @param data The KV value data
+ * @param {string} key The KV Key name
+ * @param {string} data The KV Key value data
  * @returns {string} returns the value from getCache as a string
  */
 const setCache = (key, data) => KV.put(key, data)
 const getCache = key => KV.get(key)
 
 /**
- * Calculate the age from the queryParam and return the age
- * @param req the event.request object
- * @returns {Response} returns the 
+ * Calculate the streamers age from request parameter and returns that value
+ * @param {string} birthday The birtday in the form: yyyy-MM-dd (eg. 1970-01-01)
+ * @param {Object} req The Request object from the mainHandler
+ * @returns {Response} HTTP Response with Status plain/text and body as the age (integer)
  */
 const age = async req => {
 
@@ -69,11 +70,12 @@ const age = async req => {
 }
 
 /**
- * fetch the FiveM server list API and return current players and max players
- * endPoint is defined as part of the URL: /v1/fivem/{endPoint} 
- * @param req the event.request object
- * @param userAgent the event.request object
- * @returns {Response} returns the 
+ * Fetch the FiveM server list API and return current players and max players
+ * endPoint is defined as part of the URL: /v1/fivem/{endPoint}
+ * @param {string} endPoint The FiveM list API endPoint
+ * @param {Object} req The Request object from the mainHandler
+ * @param {string} userAgent the event.request object
+ * @returns {Response} HTTP Response with Status plain/text and body as string {current}/{max}
  */
 const fivem = async (req, userAgent) => {
 
@@ -109,8 +111,8 @@ const fivem = async (req, userAgent) => {
 }
 
 /**
- * notFound default response 
- * @returns {Response} returns the 
+ * Default response to undefined and unmatched routes and requests
+ * @returns {Response} HTTP Response with Status plain/text and body as the string defined
  */
 const notFound = () => {
 
@@ -124,21 +126,23 @@ const notFound = () => {
 }
 
 /**
- * Get the SubCount, Channel, Language and "Silent"-mode for comparing the latest value stored in Workers KV
- * If the count is greater than the stored value, it is updated with the new date and count in Workers KV
- * If the value is lower or equal to the stored value, the value from Worker KV is returned and nothing is updated
- * @param req the event.request object
- * @param count the subcount eg. 123
- * @param lang the return text language, default is English, danish (da) is supported
- * @param silent Silent mode - just updates Workers KV and returns nothing (can be used along with the normal !subs command eg.)
- * @returns {Response} returns the 
+ * Receives a Twitch channel sub count test if this count is larger than the one stored in Workers KV, 
+ * if it is larger this is updated and date, and saved in Workers KV (in JSON format) under a KEY which is channel name. 
+ * If it is lower or equal to, the previously saved count and date are returned. 
+ * If silent is specified as an argument, nothing is returned, but the count continues to be updated.
+ * @param {Object} req The Request object from the mainHandler
+ * @param {string} count The current subscriber count
+ * @param {string} channel The twitch channel name, used as Key-name, to store in Workers KV
+ * @param {boolean} da Return string should be in danishi language
+ * @param {boolean} silent Silent mode - just updates Workers KV and returns nothing (can be used along with the normal !subs command eg.)
+ * @returns {Response} HTTP Response with Status plain/text and body as the string requested
  */
 const subRecord = async req => {
 
   const { searchParams } = new URL(req.url)
 
   const count = searchParams.get("count") || 0
-  const lang = searchParams.get("lang")
+  const danishString = searchParams.has("da")
   const silent = searchParams.has("silent")
 
   let channel = searchParams.get("channel") || null
@@ -174,7 +178,7 @@ const subRecord = async req => {
 
         responseString = "On " + subRecordDate + " we hit " + subRecord + " subs!"
 
-        if (lang === "da") {
+        if (danishString) {
           responseString = "Den " + subRecordDate + " ramte vi " + subRecord + " subs!"
         }
       }
@@ -192,5 +196,4 @@ const subRecord = async req => {
   notFound()
 }
 
-// export the functions
 export { age, fivem, notFound, subRecord }
