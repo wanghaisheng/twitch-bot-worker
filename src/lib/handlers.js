@@ -22,12 +22,86 @@
  * SOFTWARE.
  */
 
-import notFound from './notFound'
-
 const setCache = (key, data) => KV.put(key, data)
 const getCache = key => KV.get(key)
 
-const subRecordHandler = async req => {
+const age = async req => {
+
+    const { searchParams } = new URL(req.url)
+  
+    const birthDay = searchParams.get("birthday") || null;
+  
+    if (birthDay != null) {
+  
+      const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
+      const currentDate = new Date(tzDate)
+  
+      const birthDayDate = new Date(birthDay)
+  
+      let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
+      let month = currentDate.getMonth() -  birthDayDate.getMonth()
+  
+      if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
+        currentAge--
+      }
+  
+      return new Response(currentAge, { 
+        status: 200,
+        statusText: 'OK',
+        headers: {
+          'content-type': 'text/plain'
+        }
+      })
+    }
+  
+    notFound()
+}
+
+const fivem = async (req, userAgent) => {
+
+  const { pathname } = new URL(req.url)
+  const endPoint = pathname.substring(9)
+
+  if (endPoint != "") {
+    
+    const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + endPoint, {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+        'user-agent': userAgent
+      }
+    })
+
+    let responseText = "[No Data]"
+
+    if (resp.status === 200) {
+      const respData = await resp.json()
+      responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
+    }
+
+    return new Response(responseText, { 
+      status: 200,
+      statusText: 'OK',
+      headers: {
+        'content-type': 'text/plain'
+      }
+    })
+  }
+
+  notFound()
+}
+
+const notFound = () => {
+
+  return new Response('Invalid API query', {
+    status: 404,
+    statusText: 'Not Found',
+    headers: {
+      'content-type': 'text/plain',
+    },
+  })
+}
+
+const subRecord = async req => {
 
   const { searchParams } = new URL(req.url)
 
@@ -83,7 +157,7 @@ const subRecordHandler = async req => {
     }
   }
 
-  return await notFound()
+  notFound()
 }
 
-export default subRecordHandler
+export { age, fivem, notFound, subRecord }
