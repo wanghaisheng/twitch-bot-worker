@@ -22,36 +22,44 @@
  * SOFTWARE.
  */
 
-import Router from './lib/router'
-
-import age from './handler/age'
-import fivem from './handler/fivem'
-import notFound from './handler/notFound'
-import subRecord from './handler/subRecord'
-
-const STREAMELEMENTS_USER_AGENT = "StreamElements Bot"
-
-addEventListener('fetch', event => {
-    event.respondWith(mainHandler(event.request))
-})
+import notFound from "./notFound";
 
 /**
- * The default handler funtion
+ * Calculate the streamers age from request parameter and returns that value
+ * @param {string} birthday The birtday in the form: yyyy-MM-dd (eg. 1970-01-01)
  * @param {Object} req The Request object from the mainHandler
- * @returns {Response} HTTP Response using the routes defined
+ * @returns {Response} HTTP Response with Status plain/text and body as the age (integer)
  */
-async function mainHandler(request) {
+const age = async req => {
 
-    const router = new Router()
+    const { searchParams } = new URL(req.url)
+  
+    const birthDay = searchParams.get("birthday") || null;
+  
+    if (birthDay != null) {
+  
+        const tzDate = new Date().toLocaleString('en-US', {timeZone: TZ})
+        const currentDate = new Date(tzDate)
 
-    if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
+        const birthDayDate = new Date(birthDay)
 
-        router.get('/v1/age', () => age(request))
-        router.get('/v1/fivem/.+', () => fivem(request, STREAMELEMENTS_USER_AGENT))
-        router.get('/v1/subrecord', () => subRecord(request))
+        let currentAge = currentDate.getFullYear() -  birthDayDate.getFullYear()
+        let month = currentDate.getMonth() -  birthDayDate.getMonth()
+
+        if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
+            currentAge--
+        }
+  
+        return new Response(currentAge, { 
+            status: 200,
+            statusText: 'OK',
+            headers: {
+                'content-type': 'text/plain'
+            }
+        })
     }
-
-    router.all(() => notFound())
-
-    return await router.route(request)
+  
+    notFound()
 }
+
+export default age

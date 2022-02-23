@@ -22,36 +22,19 @@
  * SOFTWARE.
  */
 
-import Router from './lib/router'
-
-import age from './handler/age'
-import fivem from './handler/fivem'
-import notFound from './handler/notFound'
-import subRecord from './handler/subRecord'
-
-const STREAMELEMENTS_USER_AGENT = "StreamElements Bot"
-
-addEventListener('fetch', event => {
-    event.respondWith(mainHandler(event.request))
-})
-
 /**
- * The default handler funtion
- * @param {Object} req The Request object from the mainHandler
- * @returns {Response} HTTP Response using the routes defined
+ * Default response to undefined and unmatched routes and requests
+ * @returns {Response} HTTP Response with Status plain/text and body as the string defined
  */
-async function mainHandler(request) {
+ const notFound = () => {
 
-    const router = new Router()
-
-    if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
-
-        router.get('/v1/age', () => age(request))
-        router.get('/v1/fivem/.+', () => fivem(request, STREAMELEMENTS_USER_AGENT))
-        router.get('/v1/subrecord', () => subRecord(request))
-    }
-
-    router.all(() => notFound())
-
-    return await router.route(request)
+    return new Response('Invalid API query', {
+        status: 404,
+        statusText: 'Not Found',
+        headers: {
+            'content-type': 'text/plain',
+        },
+    })
 }
+
+export default notFound
