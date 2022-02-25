@@ -22,19 +22,42 @@
  * SOFTWARE.
  */
 
+const securityHeaders = {
+	"Content-Security-Policy" : "default-src 'self'; frame-ancestors 'none'",
+    "Cross-Origin-Embedder-Policy" : "require-corp",
+    "Cross-Origin-Opener-Policy" : "same-origin",
+    "Cross-Origin-Resource-Policy" : "same-site",
+	"Permissions-Policy" : "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+	"Referrer-Policy" : "no-referrer",
+    "X-Frame-Options" : "SAMEORIGIN"
+}
+
 /**
  * Default response to undefined and unmatched routes and requests
  * @returns {Response} HTTP Response with Status plain/text and body as the string defined
  */
- const notFound = () => {
+ const response = (status = 418, body = null) => {
 
-    return new Response('Invalid API query', {
-        status: 404,
-        statusText: 'Not Found',
-        headers: {
-            'content-type': 'text/plain',
-        },
+    const newHeaders = new Headers()
+    const setHeaders = Object.assign({}, securityHeaders);
+
+    newHeaders.set("Content-Type", "text/plain")
+    Object.keys(setHeaders).forEach(name => newHeaders.set(name, setHeaders[name]));
+
+    if (status === 200) {
+        
+        return new Response(body, {
+            status: 418,
+            statusText: "OK",
+            headers: newHeaders
+        })
+    }
+
+    return new Response("418 I'm a teapot", {
+        status: 418,
+        statusText: "I'm a teapot",
+        headers: newHeaders
     })
 }
 
-export default notFound
+export default response

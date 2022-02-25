@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import notFound from "./notFound";
+import response from "./response"
 
 /**
  * Calculate the streamers age from request parameter and returns that value
@@ -30,7 +30,7 @@ import notFound from "./notFound";
  * @param {Object} req The Request object from the mainHandler
  * @returns {Response} HTTP Response with Status plain/text and body as the age (integer)
  */
-const age = async req => {
+const ageHandler = async req => {
 
     const { searchParams } = new URL(req.url)
   
@@ -59,7 +59,7 @@ const age = async req => {
         })
     }
   
-    notFound()
+    response()
 }
 
-export default age
+export default ageHandler

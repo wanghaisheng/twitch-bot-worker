@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import notFound from "./notFound"
+import response from "./response"
 
 /**
  * Fetch the FiveM server list API and return current players and max players
@@ -32,7 +32,7 @@ import notFound from "./notFound"
  * @param {string} userAgent the event.request object
  * @returns {Response} HTTP Response with Status plain/text and body as string {current}/{max}
  */
-const fivem = async (req, userAgent) => {
+const fivemHandler = async (req, userAgent) => {
 
     const { pathname } = new URL(req.url)
     const endPoint = pathname.substring(9)
@@ -62,7 +62,7 @@ const fivem = async (req, userAgent) => {
         })
     }
   
-    notFound()
+    response()
 }
 
-export default fivem
+export default fivemHandler

@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-import notFound from "./notFound";
+import response from "./response"
 
 /**
  * Helper functions to get and set data in Workers KV
@@ -45,7 +45,7 @@ const getCache = key => KV.get(key)
  * @param {boolean} silent Silent mode - just updates Workers KV and returns nothing (can be used along with the normal !subs command eg.)
  * @returns {Response} HTTP Response with Status plain/text and body as the string requested
  */
-const subRecord = async req => {
+const subRecordHandler = async req => {
 
     const { searchParams } = new URL(req.url)
 
@@ -101,7 +101,7 @@ const subRecord = async req => {
         }
     }
 
-    notFound()
+    response()
 }
 
-export default subRecord
+export default subRecordHandler
