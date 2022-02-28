@@ -23,12 +23,12 @@
  */
 
 const securityHeaders = {
-	"Content-Security-Policy" : "default-src 'self'; frame-ancestors 'none'",
+    "Content-Security-Policy" : "default-src 'self'; frame-ancestors 'none'",
     "Cross-Origin-Embedder-Policy" : "require-corp",
     "Cross-Origin-Opener-Policy" : "same-origin",
     "Cross-Origin-Resource-Policy" : "same-site",
-	"Permissions-Policy" : "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
-	"Referrer-Policy" : "no-referrer",
+    "Permissions-Policy" : "accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()",
+    "Referrer-Policy" : "no-referrer",
     "X-Frame-Options" : "SAMEORIGIN"
 }
 
@@ -47,13 +47,13 @@ const securityHeaders = {
     if (status === 200) {
         
         return new Response(body, {
-            status: 418,
+            status: 200,
             statusText: "OK",
             headers: newHeaders
         })
     }
 
-    return new Response("418 I'm a teapot", {
+    return new Response("Invalid API query", {
         status: 418,
         statusText: "I'm a teapot",
         headers: newHeaders
