@@ -35,7 +35,7 @@ import response from "./response"
 const fivemHandler = async (req, userAgent) => {
 
     const { pathname } = new URL(req.url)
-    const endPoint = pathname.substring(9)
+    const endPoint = pathname.substring(10)
   
     if (endPoint != "") {
       
