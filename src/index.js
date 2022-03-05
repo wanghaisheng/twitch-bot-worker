@@ -45,9 +45,9 @@ async function mainHandler(request) {
 
     if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
 
-        router.get('/v1/age', () => ageHandler(request))
-        router.get('/v1/fivem/.+', () => fivemHandler(request, STREAMELEMENTS_USER_AGENT))
-        router.get('/v1/subrecord', () => subRecordHandler(request))
+        router.get('/api/age', () => ageHandler(request))
+        router.get('/api/fivem/.+', () => fivemHandler(request, STREAMELEMENTS_USER_AGENT))
+        router.get('/api/subrecord', () => subRecordHandler(request))
     }
 
     router.all(() => response())
