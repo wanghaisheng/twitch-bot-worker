@@ -54,8 +54,8 @@ const securityHeaders = {
     }
 
     return new Response("Invalid API query", {
-        status: 418,
-        statusText: "I'm a teapot",
+        status: 404,
+        statusText: "Not Found",
         headers: newHeaders
     })
 }
