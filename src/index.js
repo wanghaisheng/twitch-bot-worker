@@ -22,12 +22,12 @@
  * SOFTWARE.
  */
 
+import Router from './lib/router'
+
 import ageHandler from './lib/ageHandler'
 import fivemHandler from './lib/fivemHandler'
 import response from './lib/response'
 import subRecordHandler from './lib/subRecordHandler'
-
-import Router from './lib/router'
 
 const WHITELISTED_AGENTS = [
     "Nightbot-URL-Fetcher/0.0.3",
