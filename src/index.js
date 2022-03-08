@@ -26,7 +26,6 @@ import Router from './lib/router'
 
 import ageHandler from './lib/ageHandler'
 import fivemHandler from './lib/fivemHandler'
-import response from './lib/response'
 import subRecordHandler from './lib/subRecordHandler'
 
 const WHITELISTED_AGENTS = [
@@ -53,10 +52,28 @@ async function mainHandler(request) {
         router.get('/api/age', () => ageHandler(request))
         router.get('/api/fivem/.+', () => fivemHandler(request, userAgent))
         router.get('/api/subrecord', () => subRecordHandler(request))
+        
     }
 
-    router.get('/ua', () => response(200, userAgent))
-    router.all(() => response())
+    router.get('/ua', (userAgent) => function() {
+        return new Response(userAgent, {
+            status: 200,
+            statusText: "OK",
+            headers: {
+                'content-type': 'text/plain',
+            }
+        })
+    })
+
+    router.all(() => function() {
+        return new Response("Invalid API query", {
+            status: 404,
+            statusText: "Not Found",
+            headers: {
+                'content-type': 'text/plain',
+            }
+        })
+    })
 
     return await router.route(request)
 }

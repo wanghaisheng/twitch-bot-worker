@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-import response from "./response"
-
 /**
  * Calculate the streamers age from request parameter and returns that value
  * @param {string} birthday The birtday in the form: yyyy-MM-dd (eg. 1970-01-01)
@@ -35,6 +33,8 @@ const ageHandler = async req => {
     const { searchParams } = new URL(req.url)
   
     const birthDay = searchParams.get("birthday") || null;
+
+    let responseText = ""
   
     if (birthDay != null) {
   
@@ -49,11 +49,17 @@ const ageHandler = async req => {
         if (month < 0 || (month === 0 && currentDate.getDate() < birthDayDate.getDate())) {
             currentAge--
         }
-  
-        response(200, currentAge)
+
+        responseText = currentAge
     }
   
-    response()
+    return new Response(responseText, {
+        status: 200,
+        statusText: "OK",
+        headers: {
+            'content-type': 'text/plain',
+        }
+    })
 }
 
 export default ageHandler

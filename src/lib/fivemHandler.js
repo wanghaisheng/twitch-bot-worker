@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-import response from "./response"
-
 /**
  * Fetch the FiveM server list API and return current players and max players
  * endPoint is defined as part of the URL: /v1/fivem/{endPoint}
@@ -36,6 +34,8 @@ const fivemHandler = async (req, userAgent) => {
 
     const { pathname } = new URL(req.url)
     const endPoint = pathname.substring(10)
+
+    let responseText = "[No Data]"
   
     if (endPoint != "") {
       
@@ -46,17 +46,19 @@ const fivemHandler = async (req, userAgent) => {
             }
         })
   
-        let responseText = "[No Data]"
-  
         if (resp.status === 200) {
             const respData = await resp.json()
             responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
         }
-  
-        response(200, responseText)
     }
-  
-    response()
+
+    return new Response(responseText, {
+        status: 200,
+        statusText: "OK",
+        headers: {
+            'content-type': 'text/plain',
+        }
+    })
 }
 
 export default fivemHandler

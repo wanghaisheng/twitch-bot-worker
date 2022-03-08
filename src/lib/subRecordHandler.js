@@ -22,8 +22,6 @@
  * SOFTWARE.
  */
 
-import response from "./response"
-
 /**
  * Helper functions to get and set data in Workers KV
  * @param {string} key The KV Key name
@@ -55,6 +53,8 @@ const subRecordHandler = async req => {
 
     let channel = searchParams.get("channel") || null
 
+    let responseString = ""
+
     if (channel != null) {
 
         channel = channel.toUpperCase()
@@ -80,8 +80,6 @@ const subRecordHandler = async req => {
                 }))
             }
 
-            let responseString = ""
-
             if (silent != true) {
 
                 responseString = "On " + subRecordDate + " we hit " + subRecord + " subs!"
@@ -90,12 +88,16 @@ const subRecordHandler = async req => {
                     responseString = "Den " + subRecordDate + " ramte vi " + subRecord + " subs!"
                 }
             }
-
-            response(200, responseString)
         }
     }
 
-    response()
+    return new Response(userAgent, {
+        status: 200,
+        statusText: "OK",
+        headers: {
+            'content-type': 'text/plain',
+        }
+    })
 }
 
 export default subRecordHandler
