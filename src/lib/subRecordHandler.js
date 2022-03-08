@@ -91,13 +91,7 @@ const subRecordHandler = async req => {
                 }
             }
 
-            return new Response(responseString, { 
-                status: 200,
-                statusText: 'OK',
-                headers: {
-                    'content-type': 'text/plain'
-                }
-            })
+            response(200, responseString)
         }
     }
 

@@ -50,13 +50,7 @@ const ageHandler = async req => {
             currentAge--
         }
   
-        return new Response(currentAge, { 
-            status: 200,
-            statusText: 'OK',
-            headers: {
-                'content-type': 'text/plain'
-            }
-        })
+        response(200, currentAge)
     }
   
     response()

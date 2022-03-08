@@ -53,13 +53,7 @@ const fivemHandler = async (req, userAgent) => {
             responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
         }
   
-        return new Response(responseText, { 
-            status: 200,
-            statusText: 'OK',
-            headers: {
-                'content-type': 'text/plain'
-            }
-        })
+        response(200, responseText)
     }
   
     response()
