@@ -25,10 +25,14 @@
 import ageHandler from './lib/ageHandler'
 import fivemHandler from './lib/fivemHandler'
 import response from './lib/response'
-import Router from './lib/router'
 import subRecordHandler from './lib/subRecordHandler'
 
-const STREAMELEMENTS_USER_AGENT = "StreamElements Bot"
+import Router from './lib/router'
+
+const WHITELISTED_AGENTS = [
+    "Nightbot-URL-Fetcher/0.0.3",
+    "StreamElements Bot"
+]
 
 addEventListener('fetch', event => {
     event.respondWith(mainHandler(event.request))
@@ -42,14 +46,16 @@ addEventListener('fetch', event => {
 async function mainHandler(request) {
 
     const router = new Router()
+    const userAgent = request.headers.get("User-Agent")
 
-    if (request.headers.get("User-Agent") === STREAMELEMENTS_USER_AGENT) {
+    if (WHITELISTED_AGENTS.includes(userAgent)) {
 
         router.get('/api/age', () => ageHandler(request))
-        router.get('/api/fivem/.+', () => fivemHandler(request, STREAMELEMENTS_USER_AGENT))
+        router.get('/api/fivem/.+', () => fivemHandler(request, userAgent))
         router.get('/api/subrecord', () => subRecordHandler(request))
     }
 
+    router.get('/ua', () => response(200, userAgent))
     router.all(() => response())
 
     return await router.route(request)
