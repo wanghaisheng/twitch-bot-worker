@@ -1,8 +1,8 @@
 {
     "private": true,
-    "name": "streamersbot",
+    "name": "twitch-bot-worker",
     "version": "1.0.0",
-    "description": "Oryx is an API for StreamElements Bot for server-side commands (like Subrecord and Age)",
+    "description": "Cloudflare Worker for Twitch Bots",
     "license": "MIT"
 }
   

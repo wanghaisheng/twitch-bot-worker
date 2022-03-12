@@ -1,4 +1,4 @@
-name = "streamersbot"
+name = "twitch-bot-worker"
 type = "webpack"
 account_id = ""
 workers_dev = true

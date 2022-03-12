@@ -1,7 +1,12 @@
-# streamersbot
+# twitch-bot-worker
 
-StreamersBot is an WebAPI for StreamElements Bot deployed on Cloudflare Workers and Workers KV.
-It implements multiple routes (like age, fivem and )
+Cloudflare Worker for Twitch Bots. 
+This worker implements these services, age, fivem and subrecord.
+
+This worker is currently supported for two bots:
+
+* Nightbot
+* StreamElements Bot
 
 ## License
 

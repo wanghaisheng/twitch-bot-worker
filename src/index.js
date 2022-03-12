@@ -55,16 +55,6 @@ async function mainHandler(request) {
         
     }
 
-    router.get('/ua', (userAgent) => function() {
-        return new Response(userAgent, {
-            status: 200,
-            statusText: "OK",
-            headers: {
-                'content-type': 'text/plain',
-            }
-        })
-    })
-
     router.all(() => function() {
         return new Response("Invalid API query", {
             status: 404,
