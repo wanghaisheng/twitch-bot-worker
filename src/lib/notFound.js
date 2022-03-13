@@ -22,41 +22,19 @@
  * SOFTWARE.
  */
 
-import Router from './lib/router'
-
-import ageHandler from './lib/ageHandler'
-import fivemHandler from './lib/fivemHandler'
-import notFound from './lib/notFound'
-import subRecordHandler from './lib/subRecordHandler'
-
-const WHITELISTED_AGENTS = [
-    "Nightbot-URL-Fetcher/0.0.3",
-    "StreamElements Bot"
-]
-
-addEventListener('fetch', event => {
-    event.respondWith(mainHandler(event.request))
-})
-
 /**
- * The default handler funtion
- * @param {Object} req The Request object from the mainHandler
- * @returns {Response} HTTP Response using the routes defined
+ * Default response to undefined and unmatched routes and requests
+ * @returns {Response} HTTP Response with Status plain/text and body as the string defined
  */
-async function mainHandler(request) {
+ const notFound = () => {
 
-    const router = new Router()
-    const userAgent = request.headers.get("User-Agent")
-
-    if (WHITELISTED_AGENTS.includes(userAgent)) {
-
-        router.get('/api/age', () => ageHandler(request))
-        router.get('/api/fivem/.+', () => fivemHandler(request, userAgent))
-        router.get('/api/subrecord', () => subRecordHandler(request))
-        
-    }
-
-    router.all(() => notFound())
-
-    return await router.route(request)
+    return new Response("404: Not Found", {
+        status: 404,
+        statusText: "Not Found",
+        headers: {
+            'content-type': 'text/plain',
+        }
+    })
 }
+
+export default notFound

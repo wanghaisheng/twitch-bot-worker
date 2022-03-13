@@ -91,7 +91,7 @@ const subRecordHandler = async req => {
         }
     }
 
-    return new Response(userAgent, {
+    return new Response(responseString, {
         status: 200,
         statusText: "OK",
         headers: {
