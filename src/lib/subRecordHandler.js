@@ -57,7 +57,7 @@ const subRecordHandler = async req => {
 
     if (channel != null) {
 
-        channel = channel.toUpperCase()
+        channel = channel.toLowerCase()
 
         let channelData = await getCache(channel) || "{\"count\":0,\"date\":\"1970-01-01\"}";
         let channelDataObj = JSON.parse(channelData)
