@@ -26,7 +26,6 @@ import Router from './lib/router'
 
 import ageHandler from './lib/ageHandler'
 import fivemHandler from './lib/fivemHandler'
-import notFound from './lib/notFound'
 import subRecordHandler from './lib/subRecordHandler'
 
 const WHITELISTED_AGENTS = [
@@ -55,8 +54,6 @@ async function mainHandler(request) {
         router.get('/api/subrecord', () => subRecordHandler(request))
         
     }
-
-    router.all(() => notFound())
 
     return await router.route(request)
 }

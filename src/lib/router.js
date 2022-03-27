@@ -115,9 +115,9 @@ class Router {
             return route.handler(req)
         }
 
-        return new Response('resource not found', {
+        return new Response('404: Not Found', {
             status: 404,
-            statusText: 'not found',
+            statusText: 'Not Found',
             headers: {
                 'content-type': 'text/plain',
             },
