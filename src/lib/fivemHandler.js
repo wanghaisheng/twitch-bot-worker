@@ -24,7 +24,7 @@
 
 /**
  * Fetch the FiveM server list API and return current players and max players
- * FIVEM_ENDPOINT is defined as enviroment variable
+ * Server code is defined in the FIVEM_ENDPOINT enviroment variable
  * @param {string} userAgent the event.request object
  * @returns {Response} HTTP Response with Status plain/text and body as string {current}/{max}
  */
