@@ -24,22 +24,17 @@
 
 /**
  * Fetch the FiveM server list API and return current players and max players
- * endPoint is defined as part of the URL: /v1/fivem/{endPoint}
- * @param {string} endPoint The FiveM list API endPoint
- * @param {Object} req The Request object from the mainHandler
+ * FIVEM_ENDPOINT is defined as enviroment variable
  * @param {string} userAgent the event.request object
  * @returns {Response} HTTP Response with Status plain/text and body as string {current}/{max}
  */
-const fivemHandler = async (req, userAgent) => {
-
-    const { pathname } = new URL(req.url)
-    const endPoint = pathname.substring(10)
+const fivemHandler = async (userAgent) => {
 
     let responseText = "[No Data]"
   
-    if (endPoint != "") {
+    if (FIVEM_ENDPOINT != "") {
       
-        const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + endPoint, {
+        const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + FIVEM_ENDPOINT, {
             headers: {
                 'content-type': 'application/json;charset=UTF-8',
                 'user-agent': userAgent

@@ -50,7 +50,7 @@ async function mainHandler(request) {
     if (WHITELISTED_AGENTS.includes(userAgent)) {
 
         router.get('/api/age', () => ageHandler(request))
-        router.get('/api/fivem/.+', () => fivemHandler(request, userAgent))
+        router.get('/api/fivem(.+)?', () => fivemHandler(userAgent))
         router.get('/api/subrecord', () => subRecordHandler(request))
         
     }
