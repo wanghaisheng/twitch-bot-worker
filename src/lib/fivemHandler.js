@@ -28,7 +28,7 @@
  * @param {string} userAgent the event.request object
  * @returns {Response} HTTP Response with Status plain/text and body as string {current}/{max}
  */
-const fivemHandler = async (userAgent) => {
+const fivemHandler = async userAgent => {
 
     let responseText = "[No Data]"
   
