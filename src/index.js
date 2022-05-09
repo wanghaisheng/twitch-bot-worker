@@ -50,20 +50,8 @@ async function mainHandler(request) {
     if (WHITELISTED_AGENTS.includes(userAgent)) {
 
         router.get('/api/age', () => ageHandler(request))
-        router.get('/api/fivem', () => fivemHandler(userAgent))
+        router.get('/api/fivem.*', () => fivemHandler(request, userAgent))
         router.get('/api/subrecord', () => subRecordHandler(request))
-
-        // This endpoint is deprecated using /api/fivem is now the only option
-        router.get('/api/fivem/.+', () => {
-            
-            return new Response("[Invalid]", {
-                status: 410,
-                statusText: "Gone",
-                headers: {
-                    'content-type': 'text/plain',
-                }
-            })
-        })
     }
 
     return await router.route(request)

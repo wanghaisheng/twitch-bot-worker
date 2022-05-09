@@ -25,35 +25,51 @@
 /**
  * Fetch the FiveM server list API and return current players and max players
  * Server code is defined in the FIVEM_ENDPOINT enviroment variable
+ * @param {Object} req The Request object from the mainHandler
  * @param {string} userAgent the event.request object
  * @returns {Response} HTTP Response with Status plain/text and body as string {current}/{max}
  */
-const fivemHandler = async userAgent => {
+const fivemHandler = async (req, userAgent) => {
 
-    let responseText = "[No Data]"
+    const { pathname } = new URL(req.url)
+
+    if (pathname == "/api/fivem") {
+
+        let responseText = "[No Data]"
   
-    if (FIVEM_ENDPOINT != "") {
-      
-        const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + FIVEM_ENDPOINT, {
+        if (FIVEM_ENDPOINT != "") {
+        
+            const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + FIVEM_ENDPOINT, {
+                headers: {
+                    'content-type': 'application/json;charset=UTF-8',
+                    'user-agent': userAgent
+                }
+            })
+    
+            if (resp.status === 200) {
+                const respData = await resp.json()
+                responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
+            }
+        }
+
+        return new Response(responseText, {
+            status: 200,
+            statusText: "OK",
             headers: {
-                'content-type': 'application/json;charset=UTF-8',
-                'user-agent': userAgent
+                'content-type': 'text/plain',
             }
         })
-  
-        if (resp.status === 200) {
-            const respData = await resp.json()
-            responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
-        }
     }
+    else {
 
-    return new Response(responseText, {
-        status: 200,
-        statusText: "OK",
-        headers: {
-            'content-type': 'text/plain',
-        }
-    })
+        return new Response("[Invalid Request]", {
+            status: 410,
+            statusText: "Gone",
+            headers: {
+                'content-type': 'text/plain',
+            }
+        })
+    }
 }
 
 export default fivemHandler
