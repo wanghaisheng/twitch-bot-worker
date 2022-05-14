@@ -31,7 +31,7 @@
  */
 const fivemHandler = async userAgent => {
 
-    let responseText = "[No Data]"
+    let responseText = "[NoResponse]"
 
     if (FIVEM_ENDPOINT != "") {
     
