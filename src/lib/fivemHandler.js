@@ -29,47 +29,33 @@
  * @param {string} userAgent the event.request object
  * @returns {Response} HTTP Response with Status plain/text and body as string {current}/{max}
  */
-const fivemHandler = async (req, userAgent) => {
+const fivemHandler = async userAgent => {
 
-    const { pathname } = new URL(req.url)
+    let responseText = "[No Data]"
 
-    if (pathname == "/api/fivem") {
-
-        let responseText = "[No Data]"
-  
-        if (FIVEM_ENDPOINT != "") {
-        
-            const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + FIVEM_ENDPOINT, {
-                headers: {
-                    'content-type': 'application/json;charset=UTF-8',
-                    'user-agent': userAgent
-                }
-            })
+    if (FIVEM_ENDPOINT != "") {
     
-            if (resp.status === 200) {
-                const respData = await resp.json()
-                responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
+        const resp = await fetch('https://servers-frontend.fivem.net/api/servers/single/' + FIVEM_ENDPOINT, {
+            headers: {
+                'content-type': 'application/json;charset=UTF-8',
+                'user-agent': userAgent
             }
+        })
+
+        if (resp.status === 200) {
+            const respData = await resp.json()
+            responseText = respData.Data.clients + '/' + respData.Data.sv_maxclients
         }
-
-        return new Response(responseText, {
-            status: 200,
-            statusText: "OK",
-            headers: {
-                'content-type': 'text/plain',
-            }
-        })
     }
-    else {
 
-        return new Response("[Invalid Request]", {
-            status: 410,
-            statusText: "Gone",
-            headers: {
-                'content-type': 'text/plain',
-            }
-        })
-    }
+    return new Response(responseText, {
+        status: 200,
+        statusText: "OK",
+        headers: {
+            'Access-Control-Allow-Origin': '*',
+            'content-type': 'text/plain',
+        }
+    })
 }
 
 export default fivemHandler
