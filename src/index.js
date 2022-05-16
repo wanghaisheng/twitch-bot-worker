@@ -47,8 +47,6 @@ async function mainHandler(request) {
     const router = new Router()
     const userAgent = request.headers.get("User-Agent")
 
-    router.get('/api/fivem', () => fivemHandler(userAgent))
-
     if (WHITELISTED_AGENTS.includes(userAgent)) {
 
         router.get('/api/age', () => ageHandler(request))
