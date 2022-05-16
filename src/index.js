@@ -25,7 +25,6 @@
 import Router from './lib/router'
 
 import ageHandler from './lib/ageHandler'
-import fivemHandler from './lib/fivemHandler'
 import subRecordHandler from './lib/subRecordHandler'
 
 const WHITELISTED_AGENTS = [
